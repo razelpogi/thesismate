@@ -1,36 +1,40 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const TitleGenerator = () => {
+function TitleGenerator() {
   const [keywords, setKeywords] = useState('');
   const [titles, setTitles] = useState([]);
 
-  const handleGenerate = async () => {
-    const response = await axios.post('http://localhost:8000/api/generate-title/', {
-      keywords,
-    });
-    setTitles(response.data.titles);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post('/api/generate-title/', { keywords });
+      setTitles(res.data.titles);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
     <div>
-      <h2 className="text-xl font-bold mb-4">Generate Thesis Titles</h2>
-      <input
-        type="text"
-        value={keywords}
-        onChange={(e) => setKeywords(e.target.value)}
-        placeholder="Enter keywords"
-        className="border p-2 mr-2"
-      />
-      <button onClick={handleGenerate} className="bg-blue-500 text-white px-4 py-2">Generate</button>
-
-      <ul className="mt-4 list-disc pl-6">
+      <h1 className="text-2xl font-bold mb-4">Generate Thesis Titles</h1>
+      <form onSubmit={handleSubmit} className="mb-4">
+        <input
+          type="text"
+          value={keywords}
+          onChange={(e) => setKeywords(e.target.value)}
+          placeholder="Enter keywords"
+          className="border p-2 rounded"
+        />
+        <button type="submit" className="ml-2 p-2 bg-blue-500 text-white rounded">Generate</button>
+      </form>
+      <ul>
         {titles.map((title, index) => (
-          <li key={index}>{title}</li>
+          <li key={index} className="mb-1">📌 {title}</li>
         ))}
       </ul>
     </div>
   );
-};
+}
 
 export default TitleGenerator;

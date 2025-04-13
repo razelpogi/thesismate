@@ -1,4 +1,3 @@
-// frontend/src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
@@ -13,9 +12,12 @@ import Sidebar from './pages/Sidebar';
 function App() {
   return (
     <Router>
-      <div className="flex h-screen">
+      <div className="flex min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-100 text-gray-800">
+        {/* Sidebar */}
         <Sidebar />
-        <div className="flex-1 p-6 overflow-auto">
+
+        {/* Main content */}
+        <main className="flex-1 p-6 overflow-y-auto bg-white bg-opacity-90 rounded-lg m-4 shadow-lg">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/generate-title" element={<TitleGenerator />} />
@@ -25,7 +27,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>
-        </div>
+        </main>
       </div>
     </Router>
   );
